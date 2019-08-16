@@ -60,6 +60,18 @@ def basic():
                 'index.html', 
                 t=sorted_db.values()
                 )
+        elif 'part' in request.form:
+            db = filter_db('all')
+            sorted_db = OrderedDict(sorted(
+                db.items(), 
+                key=lambda x: x[1]['alert'],
+                reverse=True,
+                )
+            )
+            return render_template(
+                'index.html', 
+                t=sorted_db.values()
+                )
         else:
             name = request.form['name']
             return render_template(
