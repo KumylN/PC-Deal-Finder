@@ -1,6 +1,7 @@
 import datetime
 import praw
 import json
+import sys
 
 from detector import detect_deal, jsonify_title
 from firebaseDB.app import DATABASE
@@ -44,8 +45,8 @@ def find_deals(alert_price=75, key_word=''):
         deals_list.append(detect_deal(submissions[i], alert_price, key_word))
     return deals_list
 
-def run():
-    deals_list = find_deals()
+def run(alert_price=75):
+    deals_list = find_deals(alert_price=75)
     deal_keys = deals_list[0].keys()
 
     DATABASE.child("Deals").remove()
@@ -56,3 +57,10 @@ def run():
                 DATABASE.child("Deals").child(jsonify_title(deal['name'])).update({key: deal[key]})
         except:
             pass
+
+if __name__ == "__main__"
+    a = int(sys.argv[1])
+    if a:
+        run(a)
+    else:
+        run()
