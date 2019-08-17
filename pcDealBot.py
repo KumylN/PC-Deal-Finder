@@ -59,8 +59,4 @@ def run(alert_price=75):
             pass
 
 if __name__ == "__main__":
-    a = int(sys.argv[1])
-    if a:
-        run(a)
-    else:
-        run()
+    run()
