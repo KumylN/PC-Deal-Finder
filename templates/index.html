@@ -14,7 +14,7 @@
             <form class="form-group" action="/" method="post">
                 <input type="text" name="name" class="form-control"><br>
                 <button class="btn btn-primary" type="submit">Search</button>
-                <input type="submit" name="refresh" class="btn btn-secondary" value="Refresh DB"> 
+                <!-- <input type="submit" name="refresh" class="btn btn-secondary" value="Refresh DB">  -->
             </form><br>
             <!-- <form class="form-group" action="/" method="post">
                 <h6>Sort By:</h6>
@@ -31,7 +31,8 @@
         <span class="d-block p-2 bg-dark">
             <ul class="list-group">
                 <li id="dealItem" href={{l.url}}>
-                    <iframe style="display:none" onload="searchFunction({{l|safe}})" src="{{url_for('static', filename='deal_items.js') }}"></iframe>
+                    <script>var deal = {{ l|safe }}</script>
+                    <iframe style="display:none" onload="searchFunction(deal)" src="{{url_for('static', filename='deal_items.js') }}"></iframe>
                     <label>Alert?:</label> {{l.alert}} <br>
                     {{l.name}}
                     <br>

@@ -159,13 +159,13 @@ def detect_deal(deal_obj, alert_factor=75, key_word=''):
 
     part = detect_part(deal_lower)
     seller = detect_seller(deal_lower)
-    alert = False
+    alert = "false"
     if 'price error' in deal or 'priceerror' in deal:
-        alert = True
+        alert = "true"
     elif deal_obj.ups > alert_factor:
-        alert = True
+        alert = "true"
     elif key_word and key_word in deal_obj.title:
-        alert = True
+        alert = "true"
     price = detect_price(deal_lower)
     date = get_date(deal_obj)
     return {

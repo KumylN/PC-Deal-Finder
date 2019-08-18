@@ -1,5 +1,8 @@
-function searchFunction() {
-    console.log("I AM READING THE SCRIPT NOW BRO");
+function searchFunction(l) {
     var element = document.getElementById("dealItem")
-    console.log("{{t}}")
+    if (l["alert"] == "true") {
+        element.classList.toggle("list-group-item-warning")
+    } else {
+        element.classList.toggle("list-group-item-primary")
+    }
 }
