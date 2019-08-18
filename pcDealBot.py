@@ -49,8 +49,6 @@ def run(alert_price=75):
     deals_list = find_deals(alert_price=75)
     deal_keys = deals_list[0].keys()
 
-    DATABASE.child("Deals").remove()
-
     for deal in deals_list:
         try:
             for key in deal_keys:
