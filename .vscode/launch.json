@@ -10,6 +10,13 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Refresh DB",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/pcDealBot.py",
+            "console": "integratedTerminal"
         }
     ]
 }

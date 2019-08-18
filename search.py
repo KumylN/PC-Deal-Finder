@@ -34,7 +34,7 @@ def basic():
             run()
             return render_template(
                 'index.html', 
-                t=filter_db('all').values()
+                t=filter_db('all')
                 )
         elif 'date' in request.form:
             db = filter_db('all')

@@ -1,6 +1,7 @@
 import copy
 import re
 import datetime
+import uuid
 
 
 TEN_DIGITS = '0123456789'
@@ -153,8 +154,16 @@ def jsonify_title(title):
             title_list[i] = ''
     return ''.join(title_list)
 
-def detect_deal(deal_obj, alert_factor=75, key_word=''):    
-    deal = deal_obj.title
+def fix_text(title):
+    if not title:
+        return ""
+    wip_title = title.replace("/", "")
+    wip_title = wip_title.replace("\\", "")
+    wip_title = wip_title.replace("\"", "")
+    return wip_title
+
+def detect_deal(deal_obj, alert_factor=75, key_word=''):   
+    deal = fix_text(deal_obj.title)
     deal_lower = deal.lower()
 
     part = detect_part(deal_lower)
@@ -176,8 +185,9 @@ def detect_deal(deal_obj, alert_factor=75, key_word=''):
         'price': price,
         'url': deal_obj.url,
         'date': str(date),
-        'flair': deal_obj.link_flair_text,
-        'upvotes': deal_obj.ups
+        'flair': fix_text(deal_obj.link_flair_text),
+        'upvotes': deal_obj.ups,
+        'uuid': str(uuid.uuid4()),
         }
     
     
