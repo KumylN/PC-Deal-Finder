@@ -2,6 +2,7 @@ import datetime
 import praw
 import json
 import sys
+import time
 
 from detector import detect_deal, jsonify_title
 from firebaseDB.app import DATABASE
@@ -14,7 +15,7 @@ reddit = praw.Reddit(
     client_id='GVnA-Hvi9sw4Ig',
     client_secret='EN-ai10yYkEncqY3D9fCbVawVv0',
     username='bapcbotdeals',
-    password=open("pwd.txt").read(),
+    password=open("pwd.txt").read().splitlines()[0],
     user_agent='bapc_bot')
 
 
@@ -45,7 +46,14 @@ def find_deals(alert_price=75, key_word=''):
         deals_list.append(detect_deal(submissions[i], alert_price, key_word))
     return deals_list
 
-def run(alert_price=75):
+def buffer(buffer_time):
+    time.sleep(600)
+    if (buffer_time == 15):
+        DATABASE.child("Deals").remove()
+        buffer_time = 0
+    run(buffer_time)
+
+def run(alert_price=75, buffer_time=0):
     deals_list = find_deals(alert_price=75)
     deal_keys = deals_list[0].keys()
 
@@ -55,6 +63,7 @@ def run(alert_price=75):
                 DATABASE.child("Deals").child(jsonify_title(deal['name'])).update({key: deal[key]})
         except:
             pass
+    buffer(buffer_time)
 
 if __name__ == "__main__":
     run()
