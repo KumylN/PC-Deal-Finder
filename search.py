@@ -6,7 +6,7 @@ from pcDealBot import run
 
 app = Flask(__name__)
 
-def filter_db(name):
+def filter_db(name, alert=True, part=True):
     deals = DATABASE.child("Deals").get()
     deals_dict = deals.val()
     filtered_dict = {}
@@ -25,16 +25,27 @@ def filter_db(name):
             pass
         if query:
             filtered_dict[key] = value
-    return filtered_dict
+    sorted_db = OrderedDict(sorted(
+        filtered_dict.items(), 
+        key=lambda x: x[1]['date'],
+        reverse=True,
+        ))
+    return sorted_db
 
 @app.route('/', methods=['GET', 'POST'])
 def basic():
     if request.method == 'POST':
-        if "refresh" in request.form:
-            run()
+        if 'alert' in request.form:
+            db = filter_db('all')
+            sorted_db = OrderedDict(sorted(
+                db.items(), 
+                key=lambda x: x[1]['alert'],
+                reverse=True,
+                )
+            )
             return render_template(
                 'index.html', 
-                t=filter_db('all')
+                t=sorted_db.values()
                 )
         elif 'date' in request.form:
             db = filter_db('all')
@@ -48,23 +59,11 @@ def basic():
                 'index.html', 
                 t=sorted_db.values()
                 )
-        elif 'alert' in request.form:
-            db = filter_db('all')
-            sorted_db = OrderedDict(sorted(
-                db.items(), 
-                key=lambda x: x[1]['alert'],
-                reverse=True,
-                )
-            )
-            return render_template(
-                'index.html', 
-                t=sorted_db.values()
-                )
         elif 'part' in request.form:
             db = filter_db('all')
             sorted_db = OrderedDict(sorted(
                 db.items(), 
-                key=lambda x: x[1]['alert'],
+                key=lambda x: (x[1]['date'], x[1]['part']),
                 reverse=True,
                 )
             )
@@ -77,7 +76,6 @@ def basic():
             return render_template(
                 'index.html', 
                 t=filter_db(name).values())
-    deals_dict = DATABASE.child("Deals").get().val()
 
     return render_template(
         'index.html', 
