@@ -46,14 +46,16 @@ def find_deals(alert_price=75, key_word=''):
         deals_list.append(detect_deal(submissions[i], alert_price, key_word))
     return deals_list
 
-def buffer(buffer_time):
+def buffer(buffer_time, alert):
     time.sleep(600)
     if (buffer_time == 15):
         DATABASE.child("Deals").remove()
         buffer_time = 0
-    run(buffer_time)
+    else:
+        run()
+    buffer(buffer_time + 1, alert)
 
-def run(alert_price=75, buffer_time=0):
+def run(alert_price=75):
     deals_list = find_deals(alert_price=75)
     deal_keys = deals_list[0].keys()
 
@@ -63,7 +65,22 @@ def run(alert_price=75, buffer_time=0):
                 DATABASE.child("Deals").child(jsonify_title(deal['name'])).update({key: deal[key]})
         except:
             pass
-    buffer(buffer_time)
 
 if __name__ == "__main__":
-    run()
+    alert = 75
+    if len(sys.argv) == 1:
+        run()
+    else:
+        for i in range(len(sys.argv)):
+            if sys.argv[i] == "--alert":
+                if (i + 1 == len(sys.argv)):
+                    print("ERROR: Expected alert votes after --alert option")
+                    exit()
+                alert = sys.argv[i + 1]
+            elif sys.argv[i] == "--destroy":
+                DATABASE.child("Deals").remove()
+    if "--buffer" in sys.argv:
+        buffer(0, alert)
+    else:
+        run(alert)
+

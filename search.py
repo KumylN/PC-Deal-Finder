@@ -21,6 +21,8 @@ def filter_db(name, alert=True, part=True):
                 query = True
             elif name == 'alert' and value['alert']:
                 query = True
+            elif name in value['name']:
+                query = True
         except:
             pass
         if query:
