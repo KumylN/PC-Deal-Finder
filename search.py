@@ -11,6 +11,7 @@ def filter_db(name, alert=True, part=True):
     filtered_dict = {}
     for key, value in deals_dict.items():
         query = False
+        # import pdb; pdb.set_trace()
         try:
             if name in value['part'].lower():
                 query = True
@@ -20,7 +21,7 @@ def filter_db(name, alert=True, part=True):
                 query = True
             elif name == 'alert' and value['alert']:
                 query = True
-            elif name in value['name']:
+            elif name in key.lower():
                 query = True
         except:
             pass
