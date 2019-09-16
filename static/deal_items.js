@@ -1,6 +1,6 @@
 function searchFunction(l) {
-    var element = document.getElementById(l["uuid"])
+    var element = document.getElementById(l["uuid"]);
     if (l["alert"] == "true") {
-        element.classList.toggle("list-group-item-warning")
+        element.classList.toggle("list-group-item-warning");
     }
 }

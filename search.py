@@ -65,7 +65,7 @@ def basic():
             db = filter_db('all')
             sorted_db = OrderedDict(sorted(
                 db.items(), 
-                key=lambda x: (x[1]['date'], x[1]['part']),
+                key=lambda x: (x[1]['part'], x[1]['date']),
                 reverse=True,
                 )
             )
