@@ -79,9 +79,12 @@ def detect_price(deal):
     def reverse_catch_price(cur_deal):
         reverse_factor = 1
         price = ''
-        while (cur_deal[len(cur_deal) - reverse_factor] in (TEN_DIGITS + ',.')):
-            price = cur_deal[len(cur_deal) - reverse_factor] + price
-            reverse_factor += 1
+        try:
+            while (cur_deal[len(cur_deal) - reverse_factor] in (TEN_DIGITS + ',.')):
+                price = cur_deal[len(cur_deal) - reverse_factor] + price
+                reverse_factor += 1
+        except:
+            price = ''
         return price
 
     def parse_price(latest_price, price):

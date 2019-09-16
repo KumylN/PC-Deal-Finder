@@ -2,6 +2,7 @@ import datetime
 import praw
 import json
 import sys
+import time
 
 from detector import detect_deal, jsonify_title
 from firebaseDB.app import DATABASE
@@ -14,7 +15,7 @@ reddit = praw.Reddit(
     client_id='GVnA-Hvi9sw4Ig',
     client_secret='EN-ai10yYkEncqY3D9fCbVawVv0',
     username='bapcbotdeals',
-    password=open("pwd.txt").read(),
+    password=open("pwd.txt").read().splitlines()[0],
     user_agent='bapc_bot')
 
 
@@ -45,6 +46,15 @@ def find_deals(alert_price=75, key_word=''):
         deals_list.append(detect_deal(submissions[i], alert_price, key_word))
     return deals_list
 
+def buffer(buffer_time, alert):
+    time.sleep(600)
+    if (buffer_time == 15):
+        DATABASE.child("Deals").remove()
+        buffer_time = 0
+    else:
+        run()
+    buffer(buffer_time + 1, alert)
+
 def run(alert_price=75):
     deals_list = find_deals(alert_price=75)
     deal_keys = deals_list[0].keys()
@@ -57,4 +67,20 @@ def run(alert_price=75):
             pass
 
 if __name__ == "__main__":
-    run()
+    alert = 75
+    if len(sys.argv) == 1:
+        run()
+    else:
+        for i in range(len(sys.argv)):
+            if sys.argv[i] == "--alert":
+                if (i + 1 == len(sys.argv)):
+                    print("ERROR: Expected alert votes after --alert option")
+                    exit()
+                alert = sys.argv[i + 1]
+            elif sys.argv[i] == "--destroy":
+                DATABASE.child("Deals").remove()
+    if "--buffer" in sys.argv:
+        buffer(0, alert)
+    else:
+        run(alert)
+
