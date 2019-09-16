@@ -1,3 +1,4 @@
 pwd.txt
 firebaseDB/
 __pycache__/
+.venv/
