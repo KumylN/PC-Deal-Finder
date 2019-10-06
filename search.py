@@ -11,6 +11,7 @@ def filter_db(name, alert=True, part=True):
     deals_dict = deals.val()
     deals_dict.update(deals_newegg.val())
     filtered_dict = {}
+    i = 0
     for key, value in deals_dict.items():
         query = False
         # import pdb; pdb.set_trace()
@@ -31,6 +32,9 @@ def filter_db(name, alert=True, part=True):
             pass
         if query:
             filtered_dict[key] = value
+        i+= 1
+        if i == 50:
+            break
     sorted_db = OrderedDict(sorted(
         filtered_dict.items(), 
         key=lambda x: x[1]['date'],
