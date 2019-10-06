@@ -7,7 +7,9 @@ app = Flask(__name__)
 
 def filter_db(name, alert=True, part=True):
     deals = DATABASE.child("Deals").get()
+    deals_newegg = DATABASE.child("NewEggDeals").get()
     deals_dict = deals.val()
+    deals_dict.update(deals_newegg.val())
     filtered_dict = {}
     for key, value in deals_dict.items():
         query = False
@@ -22,6 +24,8 @@ def filter_db(name, alert=True, part=True):
             elif name == 'alert' and value['alert']:
                 query = True
             elif name in key.lower():
+                query = True
+            elif name in value['name'].lower():
                 query = True
         except:
             pass
