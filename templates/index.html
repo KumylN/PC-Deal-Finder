@@ -25,6 +25,7 @@
         </form>
     </div> -->
     <div class="Wrapper">
+        <div class="locked">
         <h1 class="Title">PC Deal Finder</h1>
         <h2 class="Title2">Find a part scraped from several sites. </h1>
             <div class="Input">
@@ -34,35 +35,36 @@
                 </form>
             </div>
         </div>
-    
-    <div class="container-fluid">
-        
-    </div>
-    <div id="deals-list" style="display:none">
-    {% for l in t %}
-    <span class="d-block p-2 bg-dark deal">
-        <ul class="list-group">
-            <a href="{{l.url}}">
-            <div class="colorBg">
-            <li id="{{l.uuid}}" href={{l.url}}>
-                <b>{{l.name}}</b>
-                <br>
-                <label>$</label>{{l.price}}
-                <div class="deal-price" style="display:none">{{l.price}} </div>
-                <br>
-                {{l.seller}}
-                <br>
-                {{l.date}}
-                <br>
-                {{l.flair}}
-            </li>
+            <div class="container-fluid">
+                
             </div>
-            </a>
-        </ul>
-        <iframe style="display:none" onload="searchFunction({{ l }})" src="{{url_for('static', filename='deal_items.js') }}"></iframe>
-    </span>
-    {% endfor %}
-    <iframe style="display:none" onload="sortFunction()" src="{{url_for('static', filename='sort.js') }}"></iframe>
-    </div>
-</body>
-</html>
+            <div id="deals-list" style="display:none">
+                {% for l in t %}
+                <span class="d-block p-2 bg-dark deal">
+                    <ul class="list-group">
+                        <a href="{{l.url}}" target="_blank">
+                            <div class="colorBg">
+                                <li id="{{l.uuid}}" href={{l.url}}>
+                                    <b>{{l.name}}</b>
+                                    <br>
+                                    <label>$</label>{{l.price}}
+                                    <div class="deal-price" style="display:none">{{l.price}} </div>
+                                    <br>
+                                    {{l.seller}}
+                                    <br>
+                                    {{l.date}}
+                                    <br>
+                                    {{l.flair}}
+                                </li>
+                            </div>
+                        </a>
+                    </ul>
+                    <iframe style="display:none" onload="searchFunction({{ l }})" src="{{url_for('static', filename='deal_items.js') }}"></iframe>
+                </span>
+                {% endfor %}
+                <iframe style="display:none" onload="sortFunction()" src="{{url_for('static', filename='sort.js') }}"></iframe>
+            </div>
+        </div>
+    </body>
+    </html>
+    
