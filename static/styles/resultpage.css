@@ -152,3 +152,11 @@ body {
     visibility 0ms,
     z-index 0ms;
 }
+
+.colorBg {
+    background: rgb(156, 179, 233)
+}
+
+.colorBg:hover {
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+}

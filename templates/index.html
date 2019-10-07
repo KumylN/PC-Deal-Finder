@@ -42,7 +42,8 @@
     {% for l in t %}
     <span class="d-block p-2 bg-dark deal">
         <ul class="list-group">
-            <li id="{{l.uuid}}" href={{l.url}} class="list-group-item-primary">
+            <div class="colorBg">
+            <li id="{{l.uuid}}" href={{l.url}}>
                 <b>{{l.name}}</b>
                 <br>
                 <label>$</label>{{l.price}}
@@ -55,6 +56,7 @@
                 <br>
                 {{l.flair}}
             </li>
+            </div>
         </ul>
         <iframe style="display:none" onload="searchFunction({{ l }})" src="{{url_for('static', filename='deal_items.js') }}"></iframe>
     </span>
