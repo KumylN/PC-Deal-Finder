@@ -4,3 +4,7 @@ function searchFunction(l) {
         element.classList.toggle("list-group-item-warning");
     }
 }
+
+function goToSite(url) {
+    window.location = url;
+}
