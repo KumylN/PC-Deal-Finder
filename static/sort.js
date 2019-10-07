@@ -17,7 +17,7 @@ function sortFunction() {
         output += array[i].outerHTML;
     }
 
-    // append output to div 'myDiv'
+    // append output to div 
     document.getElementById('deals-list').innerHTML = output;
     document.getElementById('deals-list').style.display = "block";
     }
