@@ -1,6 +1,11 @@
 function sortFunction() {
     var elements = document.getElementsByClassName('deal');
     
+    if (elements.length === 0) {
+        document.getElementById('deals-list').style.display = "block";
+        document.getElementById("NoSearchResults").className += " noSearch";
+        return
+    }
     var array = [];
     for (var i = elements.length >>> 0; i--;) {
         array[i] = elements[i];
