@@ -93,6 +93,7 @@ if __name__ == "__main__":
                 alert = sys.argv[i + 1]
             elif sys.argv[i] == "--destroy":
                 DATABASE.child("Deals").remove()
+                DATABASE.child("NewEggDeals").remove()
     if "--buffer" in sys.argv:
         buffer(0, alert)
     else:

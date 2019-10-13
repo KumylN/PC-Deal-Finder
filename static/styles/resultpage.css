@@ -203,6 +203,7 @@ a.fill-div {
   display: inline-block;
   margin-top: 1%;
   background-color: rgb(255, 255, 255);
+  margin-left:1%;
 }
 
 .pagination a {

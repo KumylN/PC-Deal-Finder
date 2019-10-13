@@ -35,31 +35,9 @@
             </div>
             <div id="deals-list" style="display:none">
                 <div id="NoSearchResults" class="alert alert-danger">No search results found!</div>
-                {% for l in t %}
-                <span class="d-block p-2 bg-dark deal">
-                    <ul class="list-group">
-                        <a href="{{l.url}}" target="_blank">
-                            <div class="colorBg">
-                                <li id="{{l.uuid}}" href={{l.url}}>
-                                    <b>{{l.name}}</b>
-                                    <br>
-                                    <label>$</label>{{l.price}}
-                                    <div class="deal-price" style="display:none">{{l.price}} </div>
-                                    <br>
-                                    {{l.seller}}
-                                    <br>
-                                    {{l.date}}
-                                    <br>
-                                    {{l.flair}}
-                                </li>
-                            </div>
-                        </a>
-                    </ul>
-                    <iframe style="display:none" onload="searchFunction({{ l }})" src="{{url_for('static', filename='deal_items.js') }}"></iframe>
-                </span>
-                {% endfor %}
-                <iframe style="display:none" onload="sortFunction()" src="{{url_for('static', filename='sort.js') }}"></iframe>
+                <!-- <iframe style="display:none" onload="sortFunction()" src="{{url_for('static', filename='sort.js') }}"></iframe> -->
             </div>
+            <iframe style="display:none" onload="initialSort({{t}})" src="{{url_for('static', filename='sort.js') }}"></iframe>
         </div>
     </body>
     </html>

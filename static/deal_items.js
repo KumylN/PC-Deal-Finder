@@ -1,4 +1,4 @@
-function searchFunction(l) {
+function searchFunction(t) {
     var element = document.getElementById(l["uuid"]);
     if (l["alert"] == "true") {
         element.classList.toggle("list-group-item-warning");

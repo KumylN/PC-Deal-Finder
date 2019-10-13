@@ -5,11 +5,23 @@ from flask import *
 
 app = Flask(__name__)
 
-def filter_db(name, db):
+def filter_db(name, db, method_sort="price"):
     ret = {}
     for key in db:
-        if name.lower() in (str(db[key]['name']).lower() + str(db[key]['part']).lower()):# + db[key]['seller'].lower()):
-            ret[key] = db[key]
+        try:
+            if name.lower() in (str(db[key]['name']).lower() + str(db[key]['part']).lower()) + str(db[key]['seller'].lower()):
+                ret[key] = db[key]
+                if type(ret[key]['price']) == type(''):
+                    ret[key]['price'] = float(ret[key]['price'].replace(",", ""))
+        except:
+            import pdb; pdb.set_trace()
+    
+    if method_sort == "price":
+        ret = OrderedDict(sorted(
+            ret.items(),
+            key = lambda x: x[1]['price'],
+            reverse=True,
+            ))
     return ret
 
 
@@ -24,7 +36,7 @@ def searchResults():
     deals_dict.update(deals_newegg.val())
 
     # return render_template('index.html', t = deals_dict.values())
-    return render_template('index.html', t = filter_db(part, deals_dict).values())
+    return render_template('index.html', t = json.dumps(filter_db(part, deals_dict)))
 
 @app.route('/', methods=['GET', 'POST'])
 def basic():
