@@ -72,7 +72,7 @@ def detect_seller(deal):
     elif 'mike' in deal:
         return 'mike'
     else:
-        False
+        return ""
 
 def detect_price(deal):
 
@@ -170,7 +170,7 @@ def detect_deal(deal_obj, alert_factor=75, key_word=''):
     deal_lower = deal.lower()
 
     part = detect_part(deal_lower)
-    seller = detect_seller(deal_lower)
+    seller = detect_seller(deal_lower + deal_obj.url)
     alert = "false"
     if 'price error' in deal or 'priceerror' in deal:
         alert = "true"

@@ -5,6 +5,7 @@ import sys
 import time
 
 from detector import detect_deal, jsonify_title
+from newegg import getNewEggList
 from firebaseDB.app import DATABASE
 
 file_p = open("pwd.txt")
@@ -56,6 +57,7 @@ def buffer(buffer_time, alert):
     buffer(buffer_time + 1, alert)
 
 def run(alert_price=75):
+    # REDDIT
     deals_list = find_deals(alert_price=75)
     deal_keys = deals_list[0].keys()
 
@@ -65,6 +67,18 @@ def run(alert_price=75):
                 DATABASE.child("Deals").child(jsonify_title(deal['name'])).update({key: deal[key]})
         except:
             pass
+    
+    # NEWEGG
+    newEgg_list = getNewEggList(DEBUG=True)
+    newEgg_keys = newEgg_list[0].keys()
+    for part in newEgg_list:
+        try:
+            for key in newEgg_keys:
+                DATABASE.child("NewEggDeals").child((part['uuid'])).update({key: part[key]})
+            print ("ADDED PART")
+        except:
+            pass
+    
 
 if __name__ == "__main__":
     alert = 75
@@ -79,6 +93,7 @@ if __name__ == "__main__":
                 alert = sys.argv[i + 1]
             elif sys.argv[i] == "--destroy":
                 DATABASE.child("Deals").remove()
+                DATABASE.child("NewEggDeals").remove()
     if "--buffer" in sys.argv:
         buffer(0, alert)
     else:
